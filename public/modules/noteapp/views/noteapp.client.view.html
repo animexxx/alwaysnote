@@ -1,0 +1,154 @@
+<section data-ng-controller="NoteappController" data-ng-init="find()">
+    <script type="text/ng-template" id="myModalContent.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Colum sort</h3>
+        </div>
+        <div class="modal-body">
+            <p>Drag and drop to sort the column</p>
+            <ul ui-sortable ng-model="items" class="sort_column">
+                <li ng-repeat="cl in items">
+                    {{ cl.columnname }}
+                </li>
+            </ul>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+    <script type="text/ng-template" id="editnote.html">
+        <div class="modal-header">
+            <h3 class="modal-title">Edit note</h3>
+        </div>
+        <div class="modal-body">
+            <p>Change name of note</p>
+            <input class="form-control input-sm" data-ng-model="note._name">
+            <div class="checkbox" style="color: red" data-ng-show="displaydel">
+                <label>
+                    <input type="checkbox" data-ng-model="note._delete"> Delete? (Be careful, this can be undone!)
+                </label>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary" ng-click="ok()">OK</button>
+            <button class="btn btn-warning" ng-click="cancel()">Cancel</button>
+        </div>
+    </script>
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-sm-3 col-md-2 sidebar">
+
+                <ul class="nav nav-sidebar">
+                    <li class="search_all">
+                        <div class="row">
+                            <div class=" col-sm-10">
+                                <input type="text" class="form-control input-sm" data-ng-model="searchText"
+                                       placeholder="Search..."/>
+                            </div>
+                            <div class="col-sm-2">
+                                <button class="btn btn-default btn-sm glyphicon glyphicon-plus"
+                                        data-ng-click="create()"
+                                        title="Click to add new note" ng-disabled="allowaddnote"></button>
+                            </div>
+                        </div>
+                    </li>
+
+                    <li data-ng-repeat="note in notes | filter:searchText"
+                        ng-class="{active: (note._id == note_id_choice)}">
+                        <a data-ng-bind="note.notename" data-ng-click="notechoice(note._id)"></a>
+                    </li>
+
+                </ul>
+
+            </div>
+            <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
+                <div data-ng-hide="note_id_choice">
+                    <p>Create a note to start Always note ^^!</p>
+                </div>
+                <div class="table-responsive" data-ng-hide="!note_id_choice">
+                    <div>
+                        <input date-range-picker class="form-control input_mini_d date-picker loading_input" type="text"
+                               ng-model="date"
+                               ng-change="loadnotevalue()"/>
+                    </div>
+                    <table class="table table-striped table-hover table_data">
+                        <thead>
+                        <tr>
+                            <th data-ng-repeat="cl in ncl | orderBy:'+position'" data-ng-bind="cl.columnname"
+                                data-ng-click="changeclname(cl._id)"></th>
+                            <th class="last_th">
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn  btn-xs glyphicon glyphicon-plus"
+                                            title="Add 1 more column" data-ng-click="addcolm()"
+                                            ng-disabled="c10cln"></button>
+                                    <!--<button type="button" class="btn  btn-xs glyphicon glyphicon-minus"-->
+                                    <!--title="Remove column" data-ng-click="removecolm()"-->
+                                    <!--ng-disabled="c2cln"></button>-->
+                                    <button type="button" class="btn  btn-xs glyphicon glyphicon-sort-by-alphabet"
+                                            title="Column sort" data-ng-click="opensortmodal()"
+                                            ng-disabled="c2cln"></button>
+
+                                    <!--<button type="button" class="btn  btn-xs glyphicon glyphicon-trash"-->
+                                            <!--data-ng-click="deletenote(note_id_choice)" title="Delete note"></button>-->
+
+                                </div>
+                            </th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr data-ng-repeat="(clkey, clvalue) in noteclvl | groupBy:'created'">
+                            <td data-ng-bind="clkey | date :'H:mm:ss M-d-yy'"></td>
+                            <td data-ng-repeat="cl in ncl | orderBy:'+position'" ng-if="!$first">
+                                <!--<span data-ng-repeat="vl in clvalue"-->
+                                <!--data-ng-if="vl.notecolumn._id == cl._id && cl.position ==0">-->
+                                <!--{{vl.columnvalue | date:'H:mm:ss M-d-yy'}}-->
+                                <!--</span>-->
+                                <!--<span data-ng-repeat="vl in clvalue"-->
+                                <!--data-ng-if="vl.notecolumn._id == cl._id && cl.position !=0">-->
+                                <!--{{vl.columnvalue}}-->
+                                <!--</span>-->
+                                <span data-ng-repeat="vl in clvalue"
+                                      data-ng-if="vl.notecolumn._id == cl._id"
+                                      ng-bind-html="vl.columnvalue | clfilter">
+                                </span>
+                            </td>
+                            <td>
+                                <div class="btn-group" role="group">
+                                    <button type="button" class="btn  btn-xs glyphicon glyphicon-pencil"
+                                            title="Edit this row" data-ng-click="editrow(clkey)"></button>
+                                    <button type="button" class="btn  btn-xs glyphicon glyphicon-trash"
+                                            title="Delete this row" data-ng-click="deleterow(clkey)"></button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="insert_tr">
+                            <td>
+                                <span current-time="time"></span>
+                            </td>
+                            <td data-ng-repeat="clr in ncl | orderBy:'+position'" ng-if="!$first">
+                                <span data-ng-repeat="cl in newnotecl"
+                                      data-ng-if="cl._id == clr._id">
+                                    <input type="text" data-ng-model="cl._value" ng-enter="addcolmval()"
+                                           data-ng-hide="hideifsubmiting">
+                                    <input type="text" data-ng-show="hideifsubmiting">
+                                </span>
+
+                            </td>
+                            <td>
+                                <button type="button" class="btn  btn-xs glyphicon glyphicon-arrow-up"
+                                        title="Add row" data-ng-click="addcolmval()"></button>
+                            </td>
+                        </tr>
+                        </tbody>
+                    </table>
+                    <div data-ng-show="error" class="text-danger">
+                        <strong data-ng-bind="error"></strong>
+                    </div>
+                    <a id="bottom"></a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+

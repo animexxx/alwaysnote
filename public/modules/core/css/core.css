@@ -1,0 +1,266 @@
+.content {
+    margin-top: 50px;
+}
+
+.undecorated-link:hover {
+    text-decoration: none;
+}
+
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+
+.ng-invalid.ng-dirty {
+    border-color: #FA787E;
+}
+
+.ng-valid.ng-dirty {
+    border-color: #78FA89;
+}
+
+/*
+ * Base structure
+ */
+
+/* Move down content because we have a fixed navbar that is 50px tall */
+
+
+/*
+ * Global add-ons
+ */
+
+.sub-header {
+    padding-bottom: 10px;
+    border-bottom: 1px solid #eee;
+}
+
+/*
+ * Top navigation
+ * Hide default border to remove 1px line.
+ */
+.navbar-fixed-top {
+    border: 0;
+}
+
+/*
+ * Sidebar
+ */
+
+/* Hide for mobile, show later */
+.sidebar {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .sidebar {
+        position: fixed;
+        top: 51px;
+        bottom: 0;
+        left: 0;
+        z-index: 1000;
+        display: block;
+        padding: 20px;
+        overflow-x: hidden;
+        overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
+        background-color: #f5f5f5;
+        border-right: 1px solid #eee;
+    }
+}
+
+/* Sidebar navigation */
+.nav-sidebar {
+    margin-right: -21px; /* 20px padding + 1px border */
+    margin-bottom: 20px;
+    margin-left: -20px;
+}
+
+.nav-sidebar > li > a {
+    padding: 7px 20px;
+    color: #333;
+    font-size: 12px;
+}
+
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+    color: #fff;
+    background-color: #afd9ee;
+}
+
+/*
+ * Main content
+ */
+
+.main {
+    padding: 20px 10px;
+    font-size: 12px;
+}
+
+@media (min-width: 768px) {
+    /*.main {*/
+        /*padding-right: 40px;*/
+        /*padding-left: 40px;*/
+    /*}*/
+}
+
+.main .page-header {
+    margin-top: 0;
+}
+
+/*
+ * Placeholder dashboard ideas
+ */
+
+.placeholders {
+    margin-bottom: 30px;
+    text-align: center;
+}
+
+.placeholders h4 {
+    margin-bottom: 0;
+}
+
+.placeholder {
+    margin-bottom: 20px;
+}
+
+.placeholder img {
+    display: inline-block;
+    border-radius: 50%;
+}
+
+.navbar-default .navbar-brand {
+    color: #444;
+    font-size: 25px;
+}
+
+.navbar-inverse .navbar-brand, .navbar-inverse .navbar-nav > li > a {
+    text-shadow: none;
+}
+
+.navbar-inverse .navbar-nav > li > a:hover, .navbar-inverse .navbar-nav > li > a:focus {
+    color: #333;
+}
+
+.navbar-inverse .navbar-brand:hover, .navbar-inverse .navbar-brand:focus {
+    color: #5e5e5e;
+}
+
+.navbar-default .navbar-nav > .active > a, .navbar-default .navbar-nav > .open > a {
+    background-image: linear-gradient(to bottom, #dbdbdb 0px, #e2e2e2 100%);
+    background-repeat: repeat-x;
+    box-shadow: 0 3px 9px rgba(0, 0, 0, 0.075) inset;
+}
+
+.form-control {
+    font-size: 12px;
+}
+
+.search_all input {
+    border-radius: 20px;
+
+}
+
+.search_all button {
+    border: none;
+    background: none;
+    box-shadow: none;
+}
+
+.search_all {
+    text-align: center;
+    padding-bottom: 10px;
+}
+
+
+.insert_tr td {
+    padding: 0 !important;
+    background: #eee;
+}
+
+.insert_tr td:first-child {
+    padding: 8px !important;
+}
+.insert_tr td span{
+    height: 100%;
+    display: block;
+}
+.insert_tr td input {
+    background: #eee;
+    width: 100%;
+    height: 100%;
+    border: none;
+    padding: 8px;
+}
+
+.insert_tr td input:focus {
+    border: 1px solid #ccc;
+
+}
+.search_all > div:first-child{
+    padding-left: 10px;
+}
+.search_all div {
+    padding: 0;
+    margin: 0;
+}
+.last_th{
+    width: 90px;
+
+}
+table tr td:last-child{
+    text-align: right;
+    padding: 8px !important;
+}
+.table_data tr th:hover{
+    cursor: pointer;
+    background: #eee;
+}
+.table_data tr td:first-child{
+    color: #555;
+}
+.table_data tr td:last-child div{
+    display: none;
+}
+.table_data tr:hover td:last-child div{
+    display: block;
+}
+.btn-group{
+    float: right;
+}
+.nav.nav-sidebar a{
+    cursor: pointer;
+}
+.input_mini_d:focus{
+    box-shadow: none;
+}
+.input_mini_d{
+    border: none;
+    border-radius: 10px;
+    padding: 4px;
+
+}
+
+.footer {
+    background-color: #f5f5f5;
+    height: 20px;
+    position: fixed;
+    width: 25px;
+    left: 170px;
+    top:15px;
+    z-index: 1040;
+    background: url("../img/ajax-loader.gif") no-repeat center;
+}
+
+.sort_column{
+    list-style: none;
+    padding: 0;
+}
+.sort_column li{
+    cursor: move;
+    background: #d3d3d3;
+    border: 1px solid #cccccc;
+    padding: 5px;
+    margin: 0 3px 3px;
+    border-radius: 5px;
+}
